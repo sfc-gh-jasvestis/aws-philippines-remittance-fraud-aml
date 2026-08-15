@@ -9,7 +9,6 @@ The Philippines' $36B remittance industry operates under strict BSP and AMLC ove
 ```mermaid
 flowchart LR
     KIN[Kinesis] --> SPS[Snowpipe Streaming]
-    SP --> RAW[RAW Tables]
     SPS --> RAW
     RAW --> DT[Dynamic Tables]
     DT --> ML[ML Functions]
