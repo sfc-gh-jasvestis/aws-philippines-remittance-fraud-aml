@@ -1,0 +1,122 @@
+{
+  "title": "Fraud Detection & AML Compliance",
+  "duration": "4 minutes",
+  "thesis": "Snowflake ingests KYC documents via Textract + AI_PARSE_DOCUMENT, streams transactions from Kinesis, detects suspicious patterns with ML.ANOMALY_DETECTION, classifies risk with ML.CLASSIFICATION, and generates STR reports \u2014 full AML pipeline, native SQL",
+  "tabs": [
+    {
+      "id": "executive-cockpit",
+      "persona": {
+        "name": "Atty. Margarita Elena Locsin",
+        "role": "Chief Compliance Officer",
+        "avatar": "\ud83d\udc69\u200d\u2696\ufe0f"
+      },
+      "talking_points": [
+        "5.6 million transactions monitored this month \u2014 780K customer accounts screened.",
+        "847 active AML alerts in queue \u2014 23 STRs pending AMLC filing.",
+        "Sanctions screening: 12 high-confidence matches requiring enhanced due diligence."
+      ],
+      "show": [
+        "Point at 5.6M transactions monitored",
+        "Highlight 847 alert queue",
+        "Note 23 pending STRs"
+      ],
+      "call_out": "847 AML alerts in queue \u2014 23 STRs pending filing deadline",
+      "transition": {
+        "next_tab": "fraud-patterns",
+        "line": "Let's look at what's triggering alerts and how AI helps prioritize."
+      }
+    },
+    {
+      "id": "fraud-patterns",
+      "persona": {
+        "name": "Gabriel Santos Ocampo",
+        "role": "Fraud Investigations Lead",
+        "avatar": "\ud83d\udc68\u200d\ud83d\udcbb"
+      },
+      "talking_points": [
+        "ML.ANOMALY_DETECTION flagged structuring alerts up 40% this week \u2014 new pattern emerging.",
+        "Pattern: accounts sending \u20b1490K transactions (just below \u20b1500K CTR threshold) in bursts.",
+        "Network analysis reveals 47 connected accounts \u2014 potential mule ring operating in Quezon City."
+      ],
+      "show": [
+        "Show alert volume timeseries with anomaly markers",
+        "Display structuring pattern visualization",
+        "Show network graph of 47 accounts"
+      ],
+      "call_out": "47-account mule ring detected \u2014 \u20b123M in structured transactions",
+      "transition": {
+        "next_tab": "kyc-automation",
+        "line": "AI detection saved weeks of manual investigation. Let's look at KYC automation."
+      }
+    },
+    {
+      "id": "kyc-automation",
+      "persona": {
+        "name": "Atty. Margarita Elena Locsin",
+        "role": "Chief Compliance Officer",
+        "avatar": "\ud83d\udc69\u200d\u2696\ufe0f"
+      },
+      "talking_points": [
+        "AI_PARSE_DOCUMENT processed 320K KYC documents \u2014 extracting name, ID number, address.",
+        "Cross-referencing extracted data against sanctions lists: 12 high-confidence matches.",
+        "Cortex Complete auto-generates STR narratives \u2014 reducing filing time from 4 hours to 20 minutes."
+      ],
+      "show": [
+        "Show parsed document example with extracted fields",
+        "Display sanctions match table",
+        "Show generated STR narrative"
+      ],
+      "call_out": "STR filing time: 4 hours \u2192 20 minutes with AI narrative generation",
+      "transition": {
+        "next_tab": "ask-ai",
+        "line": "Let the CCO ask the system directly."
+      }
+    },
+    {
+      "id": "ask-ai",
+      "persona": {
+        "name": "Atty. Margarita Elena Locsin",
+        "role": "Chief Compliance Officer",
+        "avatar": "\ud83d\udc69\u200d\u2696\ufe0f"
+      },
+      "talking_points": [
+        "Atty. Locsin asks: 'How many CTRs did we file last quarter?'",
+        "Cortex Analyst: 1,847 CTRs filed \u2014 99.2% on time (above 99% BSP requirement).",
+        "Follow-up: 'What does BSP Circular 1022 say about enhanced due diligence?' \u2014 searches circulars."
+      ],
+      "show": [
+        "Type: 'CTRs filed last quarter?'",
+        "Show SQL + answer",
+        "Search BSP circulars"
+      ],
+      "call_out": "Two AI modes: SQL analytics + regulatory search",
+      "transition": {
+        "next_tab": "architecture",
+        "line": "Every capability \u2014 native Snowflake SQL."
+      }
+    },
+    {
+      "id": "architecture",
+      "persona": {
+        "name": "Atty. Margarita Elena Locsin",
+        "role": "Chief Compliance Officer",
+        "avatar": "\ud83d\udc69\u200d\u2696\ufe0f"
+      },
+      "talking_points": [
+        "Kinesis + Textract \u2192 Snowpipe + AI_PARSE_DOCUMENT \u2192 ML scoring \u2192 STR generation \u2014 one pipeline.",
+        "Replaces Step Functions + SageMaker + Bedrock with native Snowflake capabilities.",
+        "Philippines AML regime: BSP + AMLC oversight of $36B remittance industry."
+      ],
+      "show": [
+        "Walk through architecture diagram",
+        "Show pipeline execution flow",
+        "Toggle dual-build mode"
+      ],
+      "call_out": "End-to-end AML pipeline \u2014 ingest, parse, score, file \u2014 one platform",
+      "transition": {
+        "next_tab": "",
+        "line": "That's Snowflake and AWS \u2014 better together for Philippine AML compliance."
+      }
+    }
+  ]
+}
