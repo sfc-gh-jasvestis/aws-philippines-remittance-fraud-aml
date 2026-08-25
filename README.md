@@ -121,7 +121,7 @@ Industry research and Snowflake customer outcomes:
 - **Philippine financial institutions spend ₱15-25B annually on AML compliance** — [BAP Philippines](https://www.bap.org.ph/)
 - **AI-powered AML reduces false positives by 60-80%, saving investigation hours** — [Deloitte](https://www2.deloitte.com/global/en/pages/financial-services/articles/gx-fighting-financial-crime-with-ai.html)
 - **Automated STR generation reduces filing time by 80% while improving quality** — [McKinsey](https://www.mckinsey.com/industries/financial-services/our-insights)
-
+- **Western Union** (Snowflake customer): processes 1B+ cross-border transactions on Snowflake with real-time compliance and fraud detection across 200+ countries -- [snowflake.com/customers/western-union](https://www.snowflake.com/en/customers/all-customers/case-study/western-union/)
 
 ## Key Demo Numbers
 
