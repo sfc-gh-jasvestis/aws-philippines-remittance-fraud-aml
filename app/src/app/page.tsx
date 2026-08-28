@@ -35,36 +35,36 @@ export default function HomePage() {
   const executiveCockpit = (
     <div className="space-y-6">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <KPICard title="Total Volume" value="₱2.4B" status="neutral" />
-        <KPICard title="AML Flags" value="7" status="warning" />
-        <KPICard title="Anomalies Detected" value="3" status="danger" />
-        <KPICard title="Active Corridors" value="124" status="neutral" />
+        <KPICard title="Alerts Generated" value="12,400" status="neutral" />
+        <KPICard title="SAR Filed" value="847" status="neutral" />
+        <KPICard title="False Positive Rate" value="84%" status="danger" />
+        <KPICard title="Blocked Transactions" value="₱142M" status="neutral" />
       </div>
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <Chart
           data={data?.timeseries || [{ period: 'Loading', value: 0 }]}
           type="line"
           xKey="period"
-          yKeys={[{ key: 'value', name: 'Volume' }]}
-          title="Volume Trend (Weekly)"
+          yKeys={[{ key: 'value', name: 'Alerts' }]}
+          title="AML Alert Volume (Daily)"
         />
         <Chart
           data={data?.categories || [{ category: 'Loading', count: 0 }]}
           type="bar"
           xKey="category"
           yKeys={[{ key: 'count', name: 'Count' }]}
-          title="AML Flags by Corridor"
+          title="Alert Resolution by Type"
         />
       </div>
       <DataTable
         columns={[
-          { key: 'id', header: '#' },
-          { key: 'name', header: 'Corridor' },
-          { key: 'status', header: 'Status' },
-          { key: 'value', header: 'Volume' },
+          { key: 'id', header: 'Case' },
+          { key: 'name', header: 'Type' },
+          { key: 'status', header: 'Priority' },
+          { key: 'value', header: 'Amount (₱M)' },
         ]}
         data={data?.entities || []}
-        title="Corridor Performance"
+        title="High-Risk Cases"
       />
     </div>
   );
@@ -72,16 +72,16 @@ export default function HomePage() {
   const domainTab1 = (
     <div className="space-y-6">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <KPICard title="Efficiency" value="87%" />
-        <KPICard title="Utilization" value="72%" />
-        <KPICard title="Growth Rate" value="+8.4%" />
+        <KPICard title="Model Precision" value="42%" />
+        <KPICard title="Typology Coverage" value="94%" />
+        <KPICard title="Avg Investigation Time" value="4.2 days" />
       </div>
       <Chart
         data={data?.detail || [{ x: 'Loading', y: 0 }]}
         type="area"
         xKey="x"
-        yKeys={[{ key: 'y', name: 'Index' }]}
-        title="Fraud Aml Performance Trend"
+        yKeys={[{ key: 'y', name: 'Precision %' }]}
+        title="Model Performance by Typology"
         height={400}
       />
     </div>
@@ -94,17 +94,17 @@ export default function HomePage() {
           data={data?.breakdown || [{ label: 'A', value: 30 }, { label: 'B', value: 70 }]}
           type="pie"
           xKey="label"
-          yKeys={[{ key: 'value', name: 'Score' }]}
-          title="Risk Distribution"
+          yKeys={[{ key: 'value', name: 'Days to File' }]}
+          title="AMLC Filing Timeline"
         />
         <ActionMemo
-          persona={{ name: 'Philippines Operations Lead', role: 'Director of Fraud Aml' }}
+          persona={{ name: 'Atty. Maribel Aquino', role: 'Chief AML Officer' }}
           context={{}}
           onGenerate={async () => ({
             subject: 'Action Required',
             body: 'AI-generated recommendation based on current data patterns and predicted trends.',
             urgency: 'HIGH',
-            actions: ['Review top aml flags findings', 'Optimize corridor allocation', 'Prepare quarterly fraud aml report'],
+            actions: ['Tune structuring model to reduce false positives (currently 84%)', 'File CTR for 247 threshold-exceeding transactions', 'Investigate network link between 3 suspicious accounts'],
           })}
         />
       </div>
@@ -116,9 +116,9 @@ export default function HomePage() {
       <AskAI
         title="Ask AI"
         sampleQuestions={[
-          'Which corridors have the highest aml flags?',
-          'Show volume trend for the last 30 days',
-          'What is the forecast for next quarter's volume?',
+          'Which detection models have the highest false positive rate?',
+          'Show suspicious transaction patterns by corridor',
+          'What is the backlog for SAR investigations?',
         ]}
         mode="both"
         onSubmit={async (question, mode) => {
@@ -178,8 +178,8 @@ export default function HomePage() {
 
   const tabs = [
     { id: 'executive-cockpit', label: 'Executive Cockpit', icon: '📊', content: executiveCockpit },
-    { id: 'domain-1', label: 'Fraud Aml Analytics', icon: '📈', content: domainTab1 },
-    { id: 'domain-2', label: 'Alerts & Actions', icon: '⚡', content: domainTab2 },
+    { id: 'domain-1', label: 'Detection Models', icon: '📈', content: domainTab1 },
+    { id: 'domain-2', label: 'Compliance', icon: '⚡', content: domainTab2 },
     { id: 'ask-ai', label: 'Ask AI', icon: '🤖', content: askAiTab },
     { id: 'architecture', label: 'Architecture & Data', icon: '🏗️', content: architectureTab },
   ];
