@@ -32,15 +32,23 @@ export default function HomePage() {
       .catch(() => {});
   }, []);
 
+
+  // Look up a KPI value returned by /api/data (sourced from CURATED.KPI_SUMMARY).
+  // Falls back to the original literal so the card still renders if the API,
+  // or KPI_SUMMARY, is unavailable.
+  const kpiVal = (title: string, fallback: string): string =>
+    (data?.kpiCards as { title: string; value: string }[] | undefined)
+      ?.find((k) => k.title === title)?.value ?? fallback;
+
   const title = narrative?.title || 'SEA AWS Demo';
 
   const executiveCockpit = (
     <div className="space-y-6">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <KPICard title="Alerts Generated" value="12,400" status="neutral" />
-        <KPICard title="SAR Filed" value="847" status="neutral" />
-        <KPICard title="False Positive Rate" value="84%" status="danger" />
-        <KPICard title="Blocked Transactions" value="₱142M" status="neutral" />
+        <KPICard title="Alerts Generated" value={kpiVal('Alerts Generated', '12,400')} status="neutral" />
+        <KPICard title="SAR Filed" value={kpiVal('SAR Filed', '847')} status="neutral" />
+        <KPICard title="False Positive Rate" value={kpiVal('False Positive Rate', '84%')} status="danger" />
+        <KPICard title="Blocked Transactions" value={kpiVal('Blocked Transactions', '₱142M')} status="neutral" />
       </div>
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <div className="lg:col-span-1">
@@ -87,9 +95,9 @@ export default function HomePage() {
   const domainTab1 = (
     <div className="space-y-6">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <KPICard title="Model Precision" value="42%" />
-        <KPICard title="Typology Coverage" value="94%" />
-        <KPICard title="Avg Investigation Time" value="4.2 days" />
+        <KPICard title="Model Precision" value={kpiVal('Model Precision', '42%')} />
+        <KPICard title="Typology Coverage" value={kpiVal('Typology Coverage', '94%')} />
+        <KPICard title="Avg Investigation Time" value={kpiVal('Avg Investigation Time', '4.2 days')} />
       </div>
       <Chart
         data={data?.detail || [{ x: 'Mon', y: 24 }, { x: 'Tue', y: 28 }, { x: 'Wed', y: 22 }, { x: 'Thu', y: 31 }, { x: 'Fri', y: 26 }, { x: 'Sat', y: 19 }, { x: 'Sun', y: 23 }]}
