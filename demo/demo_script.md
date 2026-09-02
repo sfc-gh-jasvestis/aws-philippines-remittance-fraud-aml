@@ -1,109 +1,82 @@
-# Demo Script: Fraud Detection & AML Compliance
-## ~4-Minute Recorded Walkthrough
-**Format**: Screen recording with voiceover
-**Target**: Customer meeting / booth loop / social share
-**Narrative**: "Snowflake ingests KYC documents via Textract + AI_PARSE_DOCUMENT, streams transactions from Kinesis, detects suspicious patterns with ML.ANOMALY_DETECTION, classifies risk with ML.CLASSIFICATION, and generates STR reports — full AML pipeline, native SQL"
-**Demo Mode**: Open app with `?demo=true` for presenter notes
+# Fraud Detection & AML Compliance
 
----
+**Philippines - Remittances & Fintech**
+Use case: Fraud & AML
 
-## Two Personas
+> Philippine remittance companies process $36B annually under strict BSP/AMLC oversight — Snowflake combines Textract-parsed KYC documents with transaction anomaly detection and ML classification for end-to-end fraud and AML compliance.
 
-| Persona | Role | Tool | What they care about |
-|---|---|---|---|
-| **Atty. Margarita Elena Locsin** | Chief Compliance Officer | React App (SPCS) | AMLC compliance, STR filing deadlines, regulatory exam readiness, sanctions screening |
-| **Gabriel Santos Ocampo** | Fraud Investigations Lead | Amazon QuickSight | Fraud patterns, mule account networks, transaction structuring, investigation queue |
+## Why Snowflake
 
----
+Snowflake ingests KYC documents via Textract + AI_PARSE_DOCUMENT, streams transactions from Kinesis, detects suspicious patterns with ML.ANOMALY_DETECTION, classifies risk with ML.CLASSIFICATION, and generates STR reports — full AML pipeline, native SQL
 
-## What's Built
+- **Textract + AI_PARSE_DOCUMENT for KYC** - Only demo combining AWS document extraction with Snowflake AI parsing for KYC
+- **ML.ANOMALY_DETECTION + ML.CLASSIFICATION for AML** - Dual ML approach — anomaly detection for pattern discovery, classification for scoring
+- **Cortex Complete for STR narrative generation** - AI auto-generates regulatory filing narratives — 4 hours to 20 minutes
+- **BSP/AMLC regulatory context** - Philippine-specific AML requirements with BSP circular search
+- **Network graph analysis for mule rings** - Account-to-account relationship mapping for coordinated fraud detection
+- **Kinesis + Snowpipe Streaming for real-time monitoring** - Sub-minute transaction monitoring at 5.6M monthly transaction scale
 
-| Layer | Component | Detail |
+## What is deployed
+
+| | |
+|---|---|
+| Database | `PH_REMITTANCE_FRAUD_AML` |
+| Service | `PH_REMITTANCE_FRAUD_AML_APP` |
+| Compute pool | `SEA_DEMOS_PHILIPPINES_POOL` |
+| Dimension table | `RAW.BSP_CIRCULARS` (20 rows) |
+| Fact table | `RAW.TRANSACTIONS` (250,000 rows, 90 days) |
+| Curated layer | `CURATED.PERFORMANCE_SUMMARY`, `CURATED.TREND_ANALYSIS`, `CURATED.KPI_SUMMARY` |
+| Currency | PHP (₱) |
+
+Regions in play: Metro Manila, Cebu, Davao, Pampanga, Iloilo
+Segments: Account Takeover, Mule Account, Structuring, Sanctions Hit
+
+Dynamic tables are created suspended and refreshed on demand:
+
+```bash
+./refresh_demo_data.sh PH_REMITTANCE_FRAUD_AML
+```
+
+## KPI cards
+
+Every card below is served live from `CURATED.KPI_SUMMARY`. The app keeps the
+original literal as a fallback, so it still renders if Snowflake is unreachable.
+
+| Card | Value | Backed by |
 |---|---|---|
-| **RAW** | 7 tables | KYC_DOCUMENTS (320000), TRANSACTIONS (5600000), ACCOUNTS (780000), ALERTS_HISTORY (45000), SANCTIONS_LIST (28000), STR_FILINGS (1200), BSP_CIRCULARS (95) |
-| **CURATED** | 4 Dynamic Tables | ACCOUNT_RISK_SCORE, STRUCTURING_DETECTION, NETWORK_ANALYSIS, AML_TIMESERIES |
-| **ML** | ML.ANOMALY_DETECTION + ML.CLASSIFICATION | Forecasting + anomaly detection |
-| **AI** | AI_PARSE_DOCUMENT, AI_CLASSIFY, COMPLETE | Classification + extraction |
-| **Search** | Cortex Search | 95 documents indexed |
-| **Agent** | AML_COMPLIANCE_AGENT | Semantic View + Search tools |
+| Alerts Generated | `12,400` | average per event |
+| SAR Filed | `847` | total across Bsp Circulars |
+| False Positive Rate | `84%` | average per event |
+| Blocked Transactions | `₱142M` | total across Bsp Circulars |
+| Model Precision | `42%` | average per event |
+| Typology Coverage | `94%` | average per event |
+| Avg Investigation Time | `4.2 days` | average per event |
 
 
----
+## Demo flow
 
-## The Story
+1. Executive Cockpit
+2. Fraud Patterns
+3. KYC & Documents
+4. Ask AI
+5. Architecture & Data
 
-The Philippines' $36B remittance industry operates under strict BSP and AMLC oversight. A Philippine remittance company must monitor 5.6M monthly transactions across 200+ corridors for money laundering, terrorism financing, and fraud. Manual KYC review takes days. Alert investigation backlogs grow. STR filing deadlines loom. Snowflake automates the entire pipeline — from document parsing to anomaly detection to STR generation.
+## Talking points
 
----
+- **5.6M** - transactions monitored monthly
+- **847 alerts** - active in AML investigation queue
+- **23 STRs** - pending AMLC filing
+- **47 accounts** - linked in detected mule ring
+- **₱23M** - in structured transactions identified
+- **320K documents** - parsed by AI_PARSE_DOCUMENT
 
-## Script
+## Business impact
 
-### [0:00–0:45] EXECUTIVE COCKPIT
-
-**Show**: Executive Cockpit tab
-
-> "5.6 million transactions monitored this month — 780K customer accounts screened."
-
-**Action**: Point at 5.6M transactions monitored
-
-### [0:45–1:30] FRAUD PATTERNS
-
-**Show**: Fraud Patterns tab
-
-> "ML.ANOMALY_DETECTION flagged structuring alerts up 40% this week — new pattern emerging."
-
-**Action**: Show alert volume timeseries with anomaly markers
-
-### [1:30–2:15] KYC & DOCUMENTS
-
-**Show**: KYC & Documents tab
-
-> "AI_PARSE_DOCUMENT processed 320K KYC documents — extracting name, ID number, address."
-
-**Action**: Show parsed document example with extracted fields
-
-### [2:15–3:00] ASK AI
-
-**Show**: Ask AI tab
-
-> "Atty. Locsin asks: 'How many CTRs did we file last quarter?'"
-
-**Action**: Type: 'CTRs filed last quarter?'
-
-### [3:00–3:45] ARCHITECTURE & DATA
-
-**Show**: Architecture & Data tab
-
-> "Kinesis + Textract → Snowpipe + AI_PARSE_DOCUMENT → ML scoring → STR generation — one pipeline."
-
-**Action**: Walk through architecture diagram
-
+- AMLC received 2.3M covered and suspicious transaction reports in 2023 (AMLC Philippines)
+- Philippine financial institutions spend ₱15-25B annually on AML compliance (BAP Philippines)
+- AI-powered AML reduces false positives by 60-80%, saving investigation hours (Deloitte)
+- Automated STR generation reduces filing time by 80% while improving quality (McKinsey)
 
 ---
-
-## Key Demo Differentiators
-
-1. **Textract + AI_PARSE_DOCUMENT for KYC** — Only demo combining AWS document extraction with Snowflake AI parsing for KYC
-2. **ML.ANOMALY_DETECTION + ML.CLASSIFICATION for AML** — Dual ML approach — anomaly detection for pattern discovery, classification for scoring
-3. **Cortex Complete for STR narrative generation** — AI auto-generates regulatory filing narratives — 4 hours to 20 minutes
-4. **BSP/AMLC regulatory context** — Philippine-specific AML requirements with BSP circular search
-5. **Network graph analysis for mule rings** — Account-to-account relationship mapping for coordinated fraud detection
-6. **Kinesis + Snowpipe Streaming for real-time monitoring** — Sub-minute transaction monitoring at 5.6M monthly transaction scale
-
-
----
-
-## Demo Prep Checklist
-
-### Data Verification
-- [ ] `SELECT COUNT(*) FROM FRAUD_AML.RAW.TRANSACTIONS` → 5600000
-- [ ] `SELECT COUNT(*) FROM FRAUD_AML.RAW.KYC_DOCUMENTS` → 320000
-- [ ] `SELECT COUNT(*) FROM FRAUD_AML.CURATED.STRUCTURING_DETECTION WHERE STRUCTURING_PROBABILITY > 0.8` → >40
-
-### ML Model Verification
-- [ ] `SELECT COUNT(*) FROM FRAUD_AML.ML.AML_ANOMALY_RESULTS WHERE IS_ANOMALY = TRUE` → >0
-- [ ] `SELECT COUNT(*) FROM FRAUD_AML.ML.FRAUD_CLASSIFICATION_RESULTS WHERE IS_SUSPICIOUS = TRUE` → >=847
-
-### AI/Agent Verification
-- [ ] `SELECT COUNT(*) FROM FRAUD_AML.AI.PARSED_KYC_DOCUMENTS` → 320000
-
+Generated from `generator/demo_specs/aws-philippines-remittance-fraud-aml.json`. Do not hand-edit: run
+`python3 generator/gen_repo_docs.py aws-philippines-remittance-fraud-aml` instead.
