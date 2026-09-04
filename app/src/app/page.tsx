@@ -54,6 +54,7 @@ export default function HomePage() {
         <div className="lg:col-span-1">
           <GeoMap
             country="philippines"
+            labels={{ entity: 'Types', event: 'Transactions', alert: 'AML Alerts' }}
             regions={data?.regions}
             markers={[{"label": "Manila", "value": "Ops center", "color": "blue", "size": "lg"}, {"label": "Cebu", "value": "Regional", "color": "green", "size": "md"}, {"label": "Davao", "value": "Branch", "color": "green", "size": "sm"}]}
             routes={[]}
@@ -84,8 +85,13 @@ export default function HomePage() {
         columns={[
           { key: 'id', header: 'Case' },
           { key: 'name', header: 'Type' },
+          { key: 'region', header: 'Region' },
           { key: 'status', header: 'Priority' },
-          { key: 'value', header: 'Amount (₱M)' },
+          { key: 'm1', header: 'Amount (₱M)' },
+          { key: 'm2', header: 'False Positive Rate' },
+          { key: 'm3', header: 'Model Precision' },
+          { key: 'events', header: 'Transactions' },
+          { key: 'alerts', header: 'AML Alerts' },
         ]}
         data={data?.entities || []}
         title="High-Risk Cases"
